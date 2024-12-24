@@ -1,8 +1,5 @@
 # Social Media Services API Documentation
 
-[![API Version](https://img.shields.io/badge/API-v2-blue.svg)](https://github.com/yourusername/your-repo)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/yourusername/your-repo/blob/master/LICENSE)
-
 A comprehensive API for managing social media services, including order placement, status tracking, and account management.
 
 ## 📑 Table of Contents
@@ -123,7 +120,9 @@ Create a new order.
 
 Check order status.
 
-**Single Order:**
+#### Single Order Request
+
+**Request:**
 ```json
 {
   "key": "your-api-key",
@@ -132,16 +131,7 @@ Check order status.
 }
 ```
 
-**Multiple Orders:**
-```json
-{
-  "key": "your-api-key",
-  "action": "status",
-  "orders": "507f1f77bcf86cd799439011,507f1f77bcf86cd799439012"
-}
-```
-
-**Response:**
+**Successful Response:**
 ```json
 {
   "507f1f77bcf86cd799439011": {
@@ -150,6 +140,64 @@ Check order status.
     "status": "Processing",
     "remains": "1000",
     "currency": "USD"
+  }
+}
+```
+
+**Error Response (Invalid Order ID):**
+```json
+{
+  "507f1f77bcf86cd799439011": {
+    "error": "Incorrect order ID"
+  }
+}
+```
+
+#### Multiple Orders Request
+
+**Request:**
+```json
+{
+  "key": "your-api-key",
+  "action": "status",
+  "orders": "507f1f77bcf86cd799439011,507f1f77bcf86cd799439012,507f1f77bcf86cd799439013"
+}
+```
+
+**Response (Mixed Results):**
+```json
+{
+  "507f1f77bcf86cd799439011": {
+    "charge": "1.00000000",
+    "start_count": "0",
+    "status": "Processing",
+    "remains": "1000",
+    "currency": "USD"
+  },
+  "507f1f77bcf86cd799439012": {
+    "charge": "2.50000000",
+    "start_count": "100",
+    "status": "Completed",
+    "remains": "0",
+    "currency": "USD"
+  },
+  "507f1f77bcf86cd799439013": {
+    "error": "Incorrect order ID"
+  }
+}
+```
+
+**Response (All Invalid):**
+```json
+{
+  "507f1f77bcf86cd799439011": {
+    "error": "Incorrect order ID"
+  },
+  "507f1f77bcf86cd799439012": {
+    "error": "Incorrect order ID"
+  },
+  "507f1f77bcf86cd799439013": {
+    "error": "Incorrect order ID"
   }
 }
 ```
@@ -272,3 +320,4 @@ Check account balance.
 - POST method only
 - JSON responses
 - USD currency unless specified
+
